@@ -1,0 +1,350 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIDDY RG | IT Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Courier New", monospace;
+        }
+
+        body {
+            background: #020b08;
+            color: #00ff88;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Matrix background */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 45px;
+            font-weight: bold;
+            text-shadow:
+                0 0 5px #00ff88,
+                0 0 20px #00ff88,
+                0 0 40px #00ff88;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #00ff88;
+            }
+            to {
+                text-shadow:
+                    0 0 10px #00ff88,
+                    0 0 30px #00ff88,
+                    0 0 50px #00ff88;
+            }
+        }
+
+        .typing {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        .cursor {
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .clock {
+            margin: 25px auto;
+            font-size: 32px;
+            border: 1px solid #00ff88;
+            padding: 15px;
+            width: fit-content;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #00ff88;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 35px;
+        }
+
+        .card {
+            background: rgba(0, 20, 15, 0.85);
+            border: 1px solid #00ff88;
+            padding: 25px;
+            border-radius: 15px;
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 0 25px #00ff88;
+        }
+
+        .card h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .card p {
+            color: #b7ffd9;
+            line-height: 1.6;
+        }
+
+        .status {
+            margin-top: 35px;
+            padding: 15px;
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .online {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            color: #7affb8;
+            font-size: 14px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #00ff88;
+            color: #001a0d;
+            box-shadow: 0 0 25px #00ff88;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div class="container">
+
+        <div class="logo">GIDDY RG</div>
+
+        <div class="typing">
+            <span id="text"></span><span class="cursor">_</span>
+        </div>
+
+        <div class="clock" id="clock">
+            00:00:00
+        </div>
+
+        <div class="dashboard">
+
+            <div class="card">
+                <h2>💻 Web Development</h2>
+                <p>
+                    Building modern and interactive websites
+                    using HTML, CSS and JavaScript.
+                </p>
+            </div>
+
+            <div class="card">
+                <h2>🔐 Cybersecurity</h2>
+                <p>
+                    Exploring network security, ethical hacking
+                    and security analysis.
+                </p>
+            </div>
+
+            <div class="card">
+                <h2>🐍 Programming</h2>
+                <p>
+                    Learning Python, C and other programming
+                    technologies.
+                </p>
+            </div>
+
+            <div class="card">
+                <h2>🌐 Networking</h2>
+                <p>
+                    Understanding computer networks,
+                    protocols and network security.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="status">
+            SYSTEM STATUS:
+            <span class="online">● ONLINE</span>
+            <br><br>
+            USER: GIDDY_RG
+            <br>
+            ACCESS LEVEL: IT STUDENT
+        </div>
+
+        <a href="#" class="button">ENTER SYSTEM</a>
+
+        <footer>
+            © 2026 GIDDY RG | Information Technology
+            <br>
+            Kisii University • 2025 - 2029
+        </footer>
+
+    </div>
+
+    <script>
+
+        /* Typing effect */
+        const messages = [
+            "Initializing system...",
+            "Welcome to GIDDY RG's digital space.",
+            "Information Technology Student",
+            "Cybersecurity • Web Development • Programming"
+        ];
+
+        let messageIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+
+        function typingEffect() {
+
+            const text = document.getElementById("text");
+            const current = messages[messageIndex];
+
+            if (!deleting) {
+                text.textContent = current.substring(0, charIndex++);
+                
+                if (charIndex > current.length) {
+                    deleting = true;
+                    setTimeout(typingEffect, 1500);
+                    return;
+                }
+
+            } else {
+                text.textContent = current.substring(0, charIndex--);
+
+                if (charIndex < 0) {
+                    deleting = false;
+                    messageIndex =
+                        (messageIndex + 1) % messages.length;
+                    charIndex = 0;
+                }
+            }
+
+            setTimeout(typingEffect, deleting ? 40 : 80);
+        }
+
+        typingEffect();
+
+
+        /* Live clock */
+        function updateClock() {
+
+            const now = new Date();
+
+            let hours = String(now.getHours()).padStart(2, "0");
+            let minutes = String(now.getMinutes()).padStart(2, "0");
+            let seconds = String(now.getSeconds()).padStart(2, "0");
+
+            document.getElementById("clock").textContent =
+                hours + ":" + minutes + ":" + seconds;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+
+        /* Matrix effect */
+        const canvas = document.getElementById("matrix");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters =
+            "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@";
+
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+
+            ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#00ff88";
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+
+                const text =
+                    letters[Math.floor(Math.random() * letters.length)];
+
+                ctx.fillText(
+                    text,
+                    i * fontSize,
+                    drops[i] * fontSize
+                );
+
+                if (
+                    drops[i] * fontSize > canvas.height &&
+                    Math.random() > 0.975
+                ) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+    </script>
+
+</body>
+</html>
+```

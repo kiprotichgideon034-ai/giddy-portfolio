@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personal Information Form</title>
+</head>
+
+<body style="background-color: #06cd06; border: 2px hsl(293, 93%, 46%) solid;">
+
+    <h2 style="color: rgb(57, 14, 215);">
+        PERSONAL INFORMATION
+    </h2>
+
+    <form>
+
+        <label>Surname:</label>
+        <input type="text" name="surname"><br><br>
+
+        <label>First Name:</label>
+        <input type="text" name="firstname"><br><br>
+
+        <label>Other Names:</label>
+        <input type="text" name="othernames"><br><br>
+
+        <label>Gender:</label>
+
+        <label>Male</label>
+        <input type="radio" name="gender" >
+
+        <label>Female</label>
+        <input type="radio" name="gender" >
+
+        <br><br>
+
+        <label>Marital Status:</label>
+        <select name="marital_status">
+            <option>Single</option>
+            <option>Married</option>
+            <option>Divorced</option>
+        </select>
+
+        <br><br>
+
+        <label>Date Of Birth:</label>
+        <input type="date" name="dob"><br><br>
+
+        <label>Place Of Birth:</label>
+        <input type="text" name="place_of_birth"><br><br>
+
+        <label>Mother's Name:</label>
+        <input type="text" name="mother_name"><br><br>
+
+        <label>Father's Name:</label>
+        <input type="text" name="father_name"><br><br>
+
+        <label>Number Of Dependants:</label>
+        <input type="number"
+               name="dependants"
+               min="1"
+               placeholder="Select number of dependants">
+
+        <br><br>
+
+        <label>Level Of Education:</label>
+        <select name="education">
+            <option>Select education level</option>
+            <option>Primary</option>
+            <option>Secondary</option>
+            <option>Certificate</option>
+            <option>Diploma</option>
+            <option>Degree</option>
+            <option>Masters</option>
+            <option>PhD</option>
+        </select>
+
+        <br><br>
+        <hr>
+
+        <h2 style="color: rgb(65, 16, 211);">
+            SECURITY INFORMATION
+        </h2>
+
+        <label>Username:</label>
+        <input type="text" name="username"><br><br>
+
+        <label>Password:</label>
+        <input type="password" name="password" placeholder="password"><br><br>
+
+        <label>Re-type Password:</label>
+        <input type="password" name="confirm_password"><br><br>
+
+        <label>Security Question:</label>
+        <select name="security_question">
+            <option>What is your lucky number?</option>
+            <option>Which city were you born?</option>
+            <option>What is your favourite colour?</option>
+        </select>
+
+        <br><br>
+
+        <label>Answer:</label>
+        <input type="text" name="security_answer"><br>
+        
+    </form>
+
+</body>
+</html>
